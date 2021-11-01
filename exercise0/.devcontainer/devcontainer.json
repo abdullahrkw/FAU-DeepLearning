@@ -6,6 +6,7 @@
         "--env","DISPLAY"
     ],
     "extensions": [
-        "tomoki1207.pdf"
+        "tomoki1207.pdf",
+        "ms-python.python",
     ]
 }

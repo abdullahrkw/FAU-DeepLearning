@@ -6,3 +6,6 @@
 !dispatch.py
 !.gitignore
 __pycache__
+src/exercise_data
+src/Labels.json
+*.png

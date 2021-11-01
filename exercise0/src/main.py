@@ -1,14 +1,18 @@
 from pattern import Checker, Circle, Spectrum
+from generator import ImageGenerator
 
 if __name__=="__main__":
     ch = Checker(250, 25)
     ch.draw()
-    ch.show()
+    ch.show(headless=True)
 
     cir = Circle(1024, 200, (512, 256))
     cir.draw()
-    cir.show()
+    cir.show(headless=True)
 
     spec = Spectrum(1024)
     spec.draw()
-    spec.show()
+    spec.show(headless=True)
+
+    ig = ImageGenerator("src/exercise_data", "src/Labels.json", 10, [200,200,3], shuffle=True, rotation=True, mirroring=True)
+    ig.show(headless=True)

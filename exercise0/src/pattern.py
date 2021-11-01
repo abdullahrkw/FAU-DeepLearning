@@ -25,10 +25,12 @@ class Checker(object):
         self.output = board
         return self.output.copy()
 
-    def show(self):
+    def show(self, headless=False):
         plt.imshow(self.output, cmap='gray')
-        plt.show()
-        # plt.savefig("plot_checkers.png")
+        if headless:
+            plt.savefig("plot_checkers.png")
+        else:
+            plt.show()
 
 class Circle(object):
     def __init__(self, resolution, radius, center):
@@ -67,10 +69,12 @@ class Circle(object):
         self.output = np.logical_and(rad_sq < (radius**2), True)
         return self.output.copy()
 
-    def show(self):
+    def show(self, headless=False):
         plt.imshow(self.output, cmap='gray')
-        plt.show()
-        # plt.savefig("plot_circle.png")
+        if headless:
+            plt.savefig("plot_circle.png")
+        else:
+            plt.show()
 
 
 class Spectrum(object):
@@ -86,7 +90,9 @@ class Spectrum(object):
         self.output[:,:,1] = np.linspace(0, 1, self.resolution).reshape(self.resolution, 1)
         return self.output.copy()
 
-    def show(self):
+    def show(self, headless=False):
         plt.imshow(self.output)
-        plt.show()
-        # plt.savefig("plot_spectrum.png")
+        if headless:
+            plt.savefig("plot_spectrum.png")
+        else:
+            plt.show()
