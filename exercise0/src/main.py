@@ -6,7 +6,7 @@ if __name__=="__main__":
     ch.draw()
     ch.show(headless=True)
 
-    cir = Circle(1024, 200, (512, 256))
+    cir = Circle(16, 2, (2, 4))
     cir.draw()
     cir.show(headless=True)
 

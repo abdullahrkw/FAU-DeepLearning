@@ -1,0 +1,12 @@
+{
+    "dockerFile": "Dockerfile",
+    "runArgs": [
+        "-v", "/dev/shm:/dev/shm",
+        "-v", "/tmp/.X11-unix:/tmp/.X11-unix",
+        "--env","DISPLAY"
+    ],
+    "extensions": [
+        "tomoki1207.pdf",
+        "ms-python.python",
+    ]
+}
