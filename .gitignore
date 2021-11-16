@@ -4,3 +4,4 @@
 !exercise1
 !README.md
 !.gitignore
+__pycache__
