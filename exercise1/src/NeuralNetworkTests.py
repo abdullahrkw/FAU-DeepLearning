@@ -167,90 +167,90 @@ class TestSoftMax(unittest.TestCase):
         error = layer.backward(error)
         self.assertAlmostEqual(np.sum(error), 0)
 
-    # def test_regression_high_loss(self):
-    #     input_tensor = self.label_tensor - 1.
-    #     input_tensor *= -100.
-    #     layer = SoftMax.SoftMax()
-    #     loss_layer = L2Loss()
-    #     pred = layer.forward(input_tensor)
-    #     loss = loss_layer.forward(pred, self.label_tensor)
-    #     self.assertAlmostEqual(float(loss), 12)
+    def test_regression_high_loss(self):
+        input_tensor = self.label_tensor - 1.
+        input_tensor *= -100.
+        layer = SoftMax.SoftMax()
+        loss_layer = L2Loss()
+        pred = layer.forward(input_tensor)
+        loss = loss_layer.forward(pred, self.label_tensor)
+        self.assertAlmostEqual(float(loss), 12)
 
-    # def test_regression_backward_high_loss_w_CrossEntropy(self):
-    #     input_tensor = self.label_tensor - 1.
-    #     input_tensor *= -100.
-    #     layer = SoftMax.SoftMax()
-    #     loss_layer = Loss.CrossEntropyLoss()
+    def test_regression_backward_high_loss_w_CrossEntropy(self):
+        input_tensor = self.label_tensor - 1.
+        input_tensor *= -100.
+        layer = SoftMax.SoftMax()
+        loss_layer = Loss.CrossEntropyLoss()
 
-    #     pred = layer.forward(input_tensor)
-    #     loss_layer.forward(pred, self.label_tensor)
-    #     error = loss_layer.backward(self.label_tensor)
-    #     error = layer.backward(error)
-    #     # test if every wrong class confidence is decreased
-    #     for element in error[self.label_tensor == 0]:
-    #         self.assertGreaterEqual(element, 1/3)
+        pred = layer.forward(input_tensor)
+        loss_layer.forward(pred, self.label_tensor)
+        error = loss_layer.backward(self.label_tensor)
+        error = layer.backward(error)
+        # test if every wrong class confidence is decreased
+        for element in error[self.label_tensor == 0]:
+            self.assertGreaterEqual(element, 1/3)
 
-    #     # test if every correct class confidence is increased
-    #     for element in error[self.label_tensor == 1]:
-    #         self.assertAlmostEqual(element, -1)
+        # test if every correct class confidence is increased
+        for element in error[self.label_tensor == 1]:
+            self.assertAlmostEqual(element, -1)
 
-    # def test_regression_forward(self):
-    #     np.random.seed(1337)
-    #     input_tensor = np.abs(np.random.random(self.label_tensor.shape))
-    #     layer = SoftMax.SoftMax()
-    #     loss_layer = L2Loss()
+    def test_regression_forward(self):
+        np.random.seed(1337)
+        input_tensor = np.abs(np.random.random(self.label_tensor.shape))
+        layer = SoftMax.SoftMax()
+        loss_layer = L2Loss()
 
-    #     pred = layer.forward(input_tensor)
-    #     loss = loss_layer.forward(pred, self.label_tensor)
+        pred = layer.forward(input_tensor)
+        loss = loss_layer.forward(pred, self.label_tensor)
 
-    #     # just see if it's bigger then zero
-    #     self.assertGreater(float(loss), 0.)
+        # just see if it's bigger then zero
+        self.assertGreater(float(loss), 0.)
 
 
-    # def test_regression_backward(self):
-    #     input_tensor = np.abs(np.random.random(self.label_tensor.shape))
-    #     layer = SoftMax.SoftMax()
-    #     loss_layer = L2Loss()
+    def test_regression_backward(self):
+        input_tensor = np.abs(np.random.random(self.label_tensor.shape))
+        layer = SoftMax.SoftMax()
+        loss_layer = L2Loss()
 
-    #     pred = layer.forward(input_tensor)
-    #     loss_layer.forward(pred, self.label_tensor)
-    #     error = layer.backward(self.label_tensor)
+        pred = layer.forward(input_tensor)
+        loss_layer.forward(pred, self.label_tensor)
+        error = layer.backward(self.label_tensor)
 
-    #     # test if every wrong class confidence is decreased
-    #     for element in error[self.label_tensor == 0]:
-    #         self.assertLessEqual(element, 0)
+        # test if every wrong class confidence is decreased
+        for element in error[self.label_tensor == 0]:
+            self.assertLessEqual(element, 0)
 
-    #     # test if every correct class confidence is increased
-    #     for element in error[self.label_tensor == 1]:
-    #         self.assertGreaterEqual(element, 0)
+        # test if every correct class confidence is increased
+        for element in error[self.label_tensor == 1]:
+            self.assertGreaterEqual(element, 0)
 
-    # def test_gradient(self):
-    #     input_tensor = np.abs(np.random.random(self.label_tensor.shape))
-    #     layers = list()
-    #     layers.append(SoftMax.SoftMax())
-    #     layers.append(L2Loss())
-    #     difference = Helpers.gradient_check(layers, input_tensor, self.label_tensor)
-    #     self.assertLessEqual(np.sum(difference), 1e-5)
+    def test_gradient(self):
+        input_tensor = np.abs(np.random.random(self.label_tensor.shape))
+        layers = list()
+        layers.append(SoftMax.SoftMax())
+        layers.append(L2Loss())
+        difference = Helpers.gradient_check(layers, input_tensor, self.label_tensor)
+        self.assertLessEqual(np.sum(difference), 1e-5)
 
-    # def test_predict(self):
-    #     input_tensor = np.arange(self.categories * self.batch_size)
-    #     input_tensor = input_tensor / 100.
-    #     input_tensor = input_tensor.reshape((self.categories, self.batch_size))
-    #     # print(input_tensor)
-    #     layer = SoftMax.SoftMax()
-    #     prediction = layer.forward(input_tensor.T)
-    #     # print(prediction)
-    #     expected_values = np.array([[0.21732724, 0.21732724, 0.21732724, 0.21732724, 0.21732724, 0.21732724, 0.21732724,
-    #                                  0.21732724, 0.21732724],
-    #                                 [0.23779387, 0.23779387, 0.23779387, 0.23779387, 0.23779387, 0.23779387, 0.23779387,
-    #                                  0.23779387, 0.23779387],
-    #                                 [0.26018794, 0.26018794, 0.26018794, 0.26018794, 0.26018794, 0.26018794, 0.26018794,
-    #                                  0.26018794, 0.26018794],
-    #                                 [0.28469095, 0.28469095, 0.28469095, 0.28469095, 0.28469095, 0.28469095, 0.28469095,
-    #                                  0.28469095, 0.28469095]])
-    #     # print(expected_values)
-    #     # print(prediction)
-    #     np.testing.assert_almost_equal(expected_values, prediction.T)
+    def test_predict(self):
+        input_tensor = np.arange(self.categories * self.batch_size)
+        input_tensor = input_tensor / 100.
+        input_tensor = input_tensor.reshape((self.categories, self.batch_size))
+        # print(input_tensor)
+        layer = SoftMax.SoftMax()
+        prediction = layer.forward(input_tensor.T)
+        # print(prediction)
+        expected_values = np.array([[0.21732724, 0.21732724, 0.21732724, 0.21732724, 0.21732724, 0.21732724, 0.21732724,
+                                     0.21732724, 0.21732724],
+                                    [0.23779387, 0.23779387, 0.23779387, 0.23779387, 0.23779387, 0.23779387, 0.23779387,
+                                     0.23779387, 0.23779387],
+                                    [0.26018794, 0.26018794, 0.26018794, 0.26018794, 0.26018794, 0.26018794, 0.26018794,
+                                     0.26018794, 0.26018794],
+                                    [0.28469095, 0.28469095, 0.28469095, 0.28469095, 0.28469095, 0.28469095, 0.28469095,
+                                     0.28469095, 0.28469095]])
+        # print(expected_values)
+        # print(prediction)
+        np.testing.assert_almost_equal(expected_values, prediction.T)
 
 
 class TestCrossEntropyLoss(unittest.TestCase):
@@ -262,17 +262,17 @@ class TestCrossEntropyLoss(unittest.TestCase):
         for i in range(self.batch_size):
             self.label_tensor[i, np.random.randint(0, self.categories)] = 1
 
-    # def test_gradient(self):
-    #     input_tensor = np.abs(np.random.random(self.label_tensor.shape))
-    #     layers = list()
-    #     layers.append(Loss.CrossEntropyLoss())
-    #     difference = Helpers.gradient_check(layers, input_tensor, self.label_tensor)
-    #     self.assertLessEqual(np.sum(difference), 1e-4)
+    def test_gradient(self):
+        input_tensor = np.abs(np.random.random(self.label_tensor.shape))
+        layers = list()
+        layers.append(Loss.CrossEntropyLoss())
+        difference = Helpers.gradient_check(layers, input_tensor, self.label_tensor)
+        self.assertLessEqual(np.sum(difference), 1e-4)
 
-    # def test_zero_loss(self):
-    #     layer = Loss.CrossEntropyLoss()
-    #     loss = layer.forward(self.label_tensor, self.label_tensor)
-    #     self.assertAlmostEqual(loss, 0)
+    def test_zero_loss(self):
+        layer = Loss.CrossEntropyLoss()
+        loss = layer.forward(self.label_tensor, self.label_tensor)
+        self.assertAlmostEqual(loss, 0)
 
     def test_high_loss(self):
         label_tensor = np.zeros((self.batch_size, self.categories))
