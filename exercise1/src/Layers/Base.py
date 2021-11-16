@@ -1,6 +1,7 @@
-import numpy as np 
+import numpy as np
+class BaseLayer:
 
-class BaseLayer(object):
     def __init__(self):
-        pass
-    
+        print("Base_layer_trainable")
+        self.trainable = False
+        self.weights= np.random.randn(10,10)
