@@ -17,7 +17,6 @@ class FullyConnected(BaseLayer):
         # https://math.stackexchange.com/questions/1866757/not-understanding-derivative-of-a-matrix-matrix-product
         batch_size = input_tensor.shape[0]
         self.bias = np.ones((batch_size, 1))
-
         self.input_tensor = np.hstack((input_tensor, self.bias))
         result = np.dot(self.input_tensor, self.weights)
         return  result

@@ -345,6 +345,7 @@ class TestNeuralNetwork1(unittest.TestCase):
         plt.figure('Loss function for a Neural Net on the Iris dataset using SGD')
         plt.plot(net.loss, '-x')
         plt.show()
+        # plt.savefig("loss.png")
 
         data, labels = net.data_layer.get_test_set()
 
