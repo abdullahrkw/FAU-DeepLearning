@@ -21,23 +21,24 @@ class NeuralNetwork(object):
         self.layers.append(layer)
 
     def forward(self) -> float:
-        inpT, labelT = self._get_data()
+        inpT, self.labelT = self._get_data()
         for layer in self.layers:
             inpT = layer.forward(inpT)
-        return self.loss_layer.forward(inpT, labelT)
+        return self.loss_layer.forward(inpT, self.labelT)
 
     def backward(self) -> None:
-        errT = self._labelT
+        # errT = self._labelT
+        errT=self.loss_layer.backward(self.labelT)
+
         for layer in reversed(self.layers):
             errT = layer.backward(errT)
 
-    def train(self, itrs) -> None:
-        if not isinstance(itrs, int):
-            raise ValueError(f"{itrs} is not an int")
+    def train(self, itrs):
         for itr in range(itrs):
-            loss = self.forward()
-            self.loss.append(loss)
+            # loss = self.forward()
+            self.loss.append(self.forward())
             self.backward()
+        return self.loss
 
     def test(self, inpT) -> np.ndarray:
         for layer in self.layers:
