@@ -2,8 +2,8 @@ from Layers.Base import BaseLayer
 
 class ReLU(BaseLayer):
     def __init__(self):
-        super(ReLU, self).__init__()
-        self.trainable = False
+        super().__init__()
+        
     def forward(self, input_tensor):
         input_tensor[input_tensor <= 0] = 0 #max(0, x)
         self.x = input_tensor

@@ -1,18 +1,18 @@
 import numpy as np
 
-class SoftMax(object):
+from Layers.Base import BaseLayer
+
+
+class SoftMax(BaseLayer):
     def __init__(self):
-        self.trainable = False
+        super().__init__()
         self.y  = None
 
     def forward(self, inpT):
-        pred = np.zeros(inpT.shape, dtype=np.float64)
-        for ele in range(inpT.shape[0]):
-            e = np.exp(inpT[ele] - np.max(inpT[ele]))
-            eSum = e.sum()
-            pred[ele] = e/eSum
-        self.y = pred
-        return pred
+        e = np.exp(inpT - np.amax(inpT, axis=inpT.ndim-1, keepdims=True))
+        eSum = e.sum(axis=e.ndim-1, keepdims=True)
+        self.y = e/eSum
+        return self.y
 
     def backward(self, errT):
         dx = self.y * errT
