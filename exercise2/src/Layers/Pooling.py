@@ -1,3 +1,4 @@
+import math
 import numpy as np
 
 from Layers.Base import BaseLayer
@@ -13,8 +14,8 @@ class Pooling(BaseLayer):
         batch_sz, ch, h_in, w_in = inpT.shape
         h_p, w_p = self.pooling_shape
 
-        h_out = int((h_in - h_p) / self.stride_shape[0]) + 1
-        w_out = int((w_in - w_p) / self.stride_shape[1]) + 1
+        h_out = math.floor((h_in - h_p) / self.stride_shape[0]) + 1
+        w_out = math.floor((w_in - w_p) / self.stride_shape[1]) + 1
 
         windows = np.lib.stride_tricks.as_strided(
                                             inpT,
@@ -40,3 +41,4 @@ class Pooling(BaseLayer):
         pad = np.zeros(self.inpT.shape)
         pad[:, :, :dA.shape[2], :dA.shape[3]] = dA
         return pad
+

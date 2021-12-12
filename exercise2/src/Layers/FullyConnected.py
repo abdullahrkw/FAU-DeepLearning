@@ -14,19 +14,21 @@ class FullyConnected(BaseLayer):
         self.weights=np.random.uniform(low=0.0, high=1.0, size=(input_size +  1, output_size))
 
     def forward(self,input_tensor):
-        # https://math.stackexchange.com/questions/1866757/not-understanding-derivative-of-a-matrix-matrix-product
         batch_size = input_tensor.shape[0]
         self.bias = np.ones((batch_size, 1))
         self.input_tensor = np.hstack((input_tensor, self.bias))
         result = np.dot(self.input_tensor, self.weights)
         return  result
 
+    def initialize(self, weight_initializer, bias_initializer):
+        self.weights = weight_initializer.initialize((self.input_size +  1, self.output_size), self.input_size, self.output_size)
+
     @property
     def optimizer(self):
         return self._optimizer
 
     @optimizer.setter
-    def optimizer(self,optimizer):
+    def optimizer(self, optimizer):
         self._optimizer=optimizer
 
     def backward(self,error_tensor):

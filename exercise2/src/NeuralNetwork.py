@@ -5,8 +5,10 @@ from Layers.Base import BaseLayer
 
 
 class NeuralNetwork(object):
-    def __init__(self, optimizer=None):
+    def __init__(self, optimizer=None, weight_init=None, bias_init=None):
         self.optimizer = optimizer
+        self.weight_init = weight_init
+        self.bias_init = bias_init
         self.loss = list()
         self.layers = list()
         self.data_layer = None
@@ -21,6 +23,7 @@ class NeuralNetwork(object):
     def append_layer(self, layer:BaseLayer) -> None:
         if layer.trainable:
             layer.optimizer = copy.deepcopy(self.optimizer)
+            layer.initialize(self.weight_init, self.bias_init)
         self.layers.append(layer)
 
     def forward(self) -> float:
