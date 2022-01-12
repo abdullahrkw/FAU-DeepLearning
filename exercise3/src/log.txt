@@ -1,0 +1,6 @@
+On the UCI ML hand-written digits dataset using ADAM we achieve an accuracy of: 97.49582637729549%
+On the UCI ML hand-written digits dataset using L1_regularizer we achieve an accuracy of: 96.99499165275459%
+On the UCI ML hand-written digits dataset using L2_regularizer we achieve an accuracy of: 95.15859766277129%
+On the Iris dataset, we achieve an accuracy of: 96.0%
+On the Iris dataset, we achieve an accuracy of: 98.0%
+On the Iris dataset, we achieve an accuracy of: 100.0%
