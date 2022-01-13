@@ -5,14 +5,11 @@ class Flatten:
     def __init__(self):
         self.trainable=False
 
-    def forward(self, input_tensor):
-        batch_size, width, height, depth = np.shape(input_tensor)
-        self.batch_size = batch_size
-        self.width = width
-        self.height = height
-        self.depth = depth
-        return np.reshape(input_tensor, (batch_size, width * height * depth))
+    def forward(self, inpT):
+        self.inpT = inpT
+        batch_size = inpT.shape[0]
+        return np.reshape(inpT, (batch_size, np.prod(inpT.shape[1:])))
 
     def backward(self, error_tensor):
-        return np.reshape(error_tensor, (self.batch_size, self.width, self.height, self.depth))
+        return np.reshape(error_tensor, self.inpT.shape)
 
