@@ -17,7 +17,7 @@ class BatchNormalization(Base.BaseLayer):
         self.decay = 0.8
         self.initialize()
 
-    def initialize(self):
+    def initialize(self, weights=None, bias=None):
         self.weights = np.ones(self.channels)
         self.bias = np.zeros(self.channels)        
 

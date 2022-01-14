@@ -29,10 +29,14 @@ class NeuralNetwork(object):
 
     def forward(self) -> float:
         inpT, self._labelT = self._get_data()
+        reg_loss = 0
         for layer in self.layers:
             layer.testing_phase = self.phase
+            if self.optimizer.regularizer is not None and layer.trainable:
+                layer_reg_loss = self.optimizer.regularizer.norm(layer.weights)
+                reg_loss += layer_reg_loss
             inpT = layer.forward(inpT)
-        return self.loss_layer.forward(inpT, self._labelT)
+        return self.loss_layer.forward(inpT, self._labelT) + reg_loss
 
     def backward(self) -> None:
         errT = self.loss_layer.backward(self._labelT)
@@ -42,13 +46,16 @@ class NeuralNetwork(object):
     def train(self, itrs) -> None:
         if not isinstance(itrs, int):
             raise ValueError(f"{itrs} is not an int")
+        self.phase = False
         for itr in range(itrs):
             loss = self.forward()
             self.loss.append(loss)
             self.backward()
 
     def test(self, inpT) -> np.ndarray:
+        self.phase = True
         for layer in self.layers:
+            layer.testing_phase = self.phase
             inpT = layer.forward(inpT)
         return inpT
 
