@@ -10,7 +10,6 @@ class FullyConnected(BaseLayer):
         self.output_size = output_size
         self.trainable=True
         self._optimizer=None
-        #because we add Bias into the input tensor so it has to be (p,m) ,(m,q) -: in this case (9,5),(5,3) (# TestCase)
         self.weights=np.random.uniform(low=0.0, high=1.0, size=(input_size +  1, output_size))
 
     def forward(self,input_tensor):
@@ -20,9 +19,9 @@ class FullyConnected(BaseLayer):
         result = np.dot(self.input_tensor, self.weights)
         return  result
 
-    def initialize(self, weight_initializer, bias_initializer):
-        self.weights = weight_initializer.initialize((self.input_size +  1, self.output_size), self.input_size, self.output_size)
-
+    def initialize(self, weights_initializer, bias_initializer):
+        self.weights = weights_initializer.initialize((self.input_size + 1, self.output_size), self.input_size, self.output_size)
+        
     @property
     def optimizer(self):
         return self._optimizer

@@ -6,7 +6,7 @@ class Constant:
 
     # Because it is usually for Bias.
     def initialize(self, weights_shape, fan_in, fan_out):
-        return np.ones((fan_out)) * self.value
+        return np.ones((weights_shape)) * self.value
 
 class UniformRandom:
     def initialize(self, weights_shape,fan_in, fan_out):

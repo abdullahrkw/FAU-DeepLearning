@@ -1484,33 +1484,33 @@ class TestNeuralNetwork3(unittest.TestCase):
             print('On the Iris dataset, we achieve an accuracy of: ' + str(accuracy * 100) + '%', file=f)
         self.assertGreater(accuracy, 0.9)
 
-    # def test_regularization_loss(self):
-    #     '''
-    #     This test checks if the regularization loss is calculated for the fc and rnn layer and tracked in the
-    #     NeuralNetwork class
-    #     '''
-    #     import random
-    #     fcl = FullyConnected.FullyConnected(4, 3)
-    #     rnn = RNN.RNN(4, 4, 3)
+    def test_regularization_loss(self):
+        '''
+        This test checks if the regularization loss is calculated for the fc and rnn layer and tracked in the
+        NeuralNetwork class
+        '''
+        import random
+        fcl = FullyConnected.FullyConnected(4, 3)
+        rnn = RNN.RNN(4, 4, 3)
 
-    #     for layer in [rnn]:
-    #         loss = []
-    #         for reg in [False, True]:
-    #             opt = Optimizers.Sgd(1e-3)
-    #             if reg:
-    #                 opt.add_regularizer(Constraints.L1_Regularizer(8e-2))
-    #             net = NeuralNetwork.NeuralNetwork(opt,Initializers.Constant(0.5),
-    #                                                   Initializers.Constant(0.1))
+        for layer in [fcl, rnn]:
+            loss = []
+            for reg in [False, True]:
+                opt = Optimizers.Sgd(1e-3)
+                if reg:
+                    opt.add_regularizer(Constraints.L1_Regularizer(8e-2))
+                net = NeuralNetwork.NeuralNetwork(opt,Initializers.Constant(0.5),
+                                                      Initializers.Constant(0.1))
 
-    #             net.data_layer = Helpers.IrisData(100, random = False)
-    #             net.loss_layer = Loss.CrossEntropyLoss()
-    #             net.append_layer(layer)
-    #             net.append_layer(SoftMax.SoftMax())
-    #             net.train(1)
-    #             loss.append(np.sum(net.loss))
+                net.data_layer = Helpers.IrisData(100, random = False)
+                net.loss_layer = Loss.CrossEntropyLoss()
+                net.append_layer(layer)
+                net.append_layer(SoftMax.SoftMax())
+                net.train(1)
+                loss.append(np.sum(net.loss))
 
-    #         self.assertNotEqual(loss[0], loss[1], "Regularization Loss is not calculated and added to the overall loss "
-    #                                               "for " + layer.__class__.__name__)
+            self.assertNotEqual(loss[0], loss[1], "Regularization Loss is not calculated and added to the overall loss "
+                                                  "for " + layer.__class__.__name__)
 
     def test_iris_data_with_momentum(self):
         net = NeuralNetwork.NeuralNetwork(Optimizers.SgdWithMomentum(1e-3, 0.8),
