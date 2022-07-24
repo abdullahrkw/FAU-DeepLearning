@@ -1284,25 +1284,25 @@ class TestRNN(unittest.TestCase):
             new_output_tensor = layer.forward(self.input_tensor)
             self.assertLess(np.sum(np.power(output_tensor, 2)), np.sum(np.power(new_output_tensor, 2)))
 
-    # def test_gradient(self):
-    #     input_tensor = np.abs(np.random.random((self.input_size, self.batch_size))).T
-    #     layers = list()
-    #     layer = RNN.RNN(self.input_size, self.hidden_size, self.categories)
-    #     layer.initialize(Initializers.He(), Initializers.He())
-    #     layers.append(layer)
-    #     layers.append(L2Loss())
-    #     difference = Helpers.gradient_check(layers, input_tensor, self.label_tensor)
-    #     self.assertLessEqual(np.sum(difference), 1e-4)
+    def test_gradient(self):
+        input_tensor = np.abs(np.random.random((self.input_size, self.batch_size))).T
+        layers = list()
+        layer = RNN.RNN(self.input_size, self.hidden_size, self.categories)
+        layer.initialize(Initializers.He(), Initializers.He())
+        layers.append(layer)
+        layers.append(L2Loss())
+        difference = Helpers.gradient_check(layers, input_tensor, self.label_tensor)
+        self.assertLessEqual(np.sum(difference), 1e-4)
 
-    # def test_gradient_weights(self):
-    #     input_tensor = np.abs(np.random.random((self.input_size, self.batch_size))).T
-    #     layers = list()
-    #     layer = RNN.RNN(self.input_size, self.hidden_size, self.categories)
-    #     layer.initialize(Initializers.He(), Initializers.He())
-    #     layers.append(layer)
-    #     layers.append(L2Loss())
-    #     difference = Helpers.gradient_check_weights(layers, input_tensor, self.label_tensor, False)
-    #     self.assertLessEqual(np.sum(difference), 1e-4)
+    def test_gradient_weights(self):
+        input_tensor = np.abs(np.random.random((self.input_size, self.batch_size))).T
+        layers = list()
+        layer = RNN.RNN(self.input_size, self.hidden_size, self.categories)
+        layer.initialize(Initializers.He(), Initializers.He())
+        layers.append(layer)
+        layers.append(L2Loss())
+        difference = Helpers.gradient_check_weights(layers, input_tensor, self.label_tensor, False)
+        self.assertLessEqual(np.sum(difference), 1e-4)
 
     def test_weights_shape(self):
         layer = RNN.RNN(self.input_size, self.hidden_size, self.categories)
