@@ -90,10 +90,10 @@ class TestModel(unittest.TestCase):
         trainer.save_onnx('checkpoint_test.onnx')
 
     def test_prediction(self):
-        pred = self.model(t.rand((50, 3, 300, 300)))
+        pred = self.model(t.rand((20, 3, 300, 300)))
         pred = pred.cpu().detach().numpy()
 
-        self.assertEqual(pred.shape[0], 50)
+        self.assertEqual(pred.shape[0], 20)
         self.assertEqual(pred.shape[1], 2)
         self.assertFalse(np.isnan(pred).any(), 'Your prediction contains NaN values')
         self.assertFalse(np.isinf(pred).any(), 'Your prediction contains inf values')
@@ -103,10 +103,10 @@ class TestModel(unittest.TestCase):
         import onnxruntime
 
         ort_session = onnxruntime.InferenceSession('checkpoint_test.onnx')
-        ort_inputs = {ort_session.get_inputs()[0].name: t.rand((50, 3, 300, 300)).numpy()}
+        ort_inputs = {ort_session.get_inputs()[0].name: t.rand((20, 3, 300, 300)).numpy()}
         pred = ort_session.run(None, ort_inputs)[0]
 
-        self.assertEqual(pred.shape[0], 50)
+        self.assertEqual(pred.shape[0], 20)
         self.assertEqual(pred.shape[1], 2)
         self.assertFalse(np.isnan(pred).any(), 'Your prediction contains NaN values')
         self.assertFalse(np.isinf(pred).any(), 'Your prediction contains inf values')
