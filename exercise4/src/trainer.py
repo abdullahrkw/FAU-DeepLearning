@@ -109,10 +109,10 @@ class Trainer:
                 pred_labels.append(y_pred)
                 gt_labels.append(y)
                 loss += batch_loss
-        pred_labels = np.array(pred_labels).reshape((len(self._val_test_dl), -1))
-        gt_labels = np.array(gt_labels).reshape((len(self._val_test_dl), -1))
-        F1_score = f1_score(gt_labels, pred_labels)
-        print(f"F1 Score: {F1_score}")
+        # pred_labels = np.array(pred_labels).reshape((len(self._val_test_dl), -1))
+        # gt_labels = np.array(gt_labels).reshape((len(self._val_test_dl), -1))
+        # F1_score = f1_score(gt_labels, pred_labels)
+        # print(f"F1 Score: {F1_score}")
         avg_loss = loss/len(self._val_test_dl)
         return avg_loss
         
